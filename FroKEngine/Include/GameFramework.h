@@ -12,10 +12,16 @@
 #include <string>
 #include <functional>
 #include <conio.h>
+#include <exception>
 
 using namespace std;
 
+#include <d3d9.h>
+#include <d3dx9.h>
 
+#pragma comment(lib, "d3d9.lib")
+#pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "winmm.lib")
 
 // 수학 연산에 필요한 상수들
 #define PI		3.141592f
@@ -23,3 +29,4 @@ using namespace std;
 
 #include "Macro.h"
 #include "Types.h"
+#include "resource.h"

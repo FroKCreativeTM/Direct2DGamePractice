@@ -80,12 +80,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../Bin/</OutDir>
     <TargetName>$(ProjectName)64_Debug</TargetName>
-    <LibraryPath>../Bin;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../Bin;$(LibraryPath);$(DXSDK_DIR)\Lib\x64;$(DXSDK_DIR)\Lib\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../Bin/</OutDir>
     <TargetName>$(ProjectName)64_Release</TargetName>
+    <IncludePath>C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(DXSDK_DIR)\Lib\x64;$(DXSDK_DIR)\Lib\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64;C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -145,12 +148,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCore.h" />
+    <ClInclude Include="CGraphics.h" />
+    <ClInclude Include="Core\CGameError.h" />
+    <ClInclude Include="Core\CRef.h" />
+    <ClInclude Include="Core\CTimer.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="GameFramework.h" />
     <ClInclude Include="Macro.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp" />
+    <ClCompile Include="CGraphics.cpp" />
+    <ClCompile Include="Core\CGameError.cpp" />
+    <ClCompile Include="Core\CRef.cpp" />
+    <ClCompile Include="Core\CTimer.cpp" />
+    <ClCompile Include="GameApp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FroKEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

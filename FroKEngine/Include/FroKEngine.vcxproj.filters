@@ -19,10 +19,31 @@
     <Filter Include="01. Core\01. Timer">
       <UniqueIdentifier>{c1939f87-183f-41cf-a507-f5c67efdf6cc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Core\02. Graphics">
+      <UniqueIdentifier>{43e0627c-818d-4aa9-bfde-893cef109ddd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01. Core\03. GameError">
+      <UniqueIdentifier>{47611cdd-3c1a-4d32-8560-a2f2508e9e43}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
       <Filter>01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="CGraphics.cpp">
+      <Filter>01. Core\02. Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="GameApp.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CTimer.cpp">
+      <Filter>01. Core\01. Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CRef.cpp">
+      <Filter>01. Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CGameError.cpp">
+      <Filter>01. Core\03. GameError</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,5 +59,30 @@
     <ClInclude Include="Types.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="CGraphics.h">
+      <Filter>01. Core\02. Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CTimer.h">
+      <Filter>01. Core\01. Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CRef.h">
+      <Filter>01. Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CGameError.h">
+      <Filter>01. Core\03. GameError</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="FroKEngine.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
   </ItemGroup>
 </Project>
