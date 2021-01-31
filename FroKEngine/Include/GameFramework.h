@@ -4,6 +4,7 @@
 
 // C/C++ runtime header
 #include <Windows.h>
+#include <windowsx.h>
 #include <list>
 #include <vector>
 #include <unordered_map>
@@ -14,6 +15,7 @@
 #include <conio.h>
 #include <exception>
 #include <mmsystem.h>
+#include <XInput.h>
 
 using namespace std;
 
@@ -22,6 +24,7 @@ using namespace std;
 
 #pragma comment(lib, "d3d9.lib")
 #pragma comment(lib, "d3dx9.lib")
+#pragma comment(lib, "xinput.lib")
 #pragma comment(lib, "winmm.lib")
 
 // 수학 연산에 필요한 상수들

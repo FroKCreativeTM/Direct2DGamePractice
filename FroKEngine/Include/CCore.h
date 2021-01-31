@@ -34,7 +34,7 @@ public:
 	}
 
 	// 윈도우 인스턴스를 반환한다.
-	HINSTANCE GetWindowInstance() const
+	HINSTANCE GetCoreWindowInstance() const
 	{
 		return m_hInst;
 	}

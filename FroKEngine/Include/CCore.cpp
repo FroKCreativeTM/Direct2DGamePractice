@@ -65,8 +65,8 @@ bool CCore::Init(HINSTANCE hInstance, bool isFullScreen)
 		return false;
 	}
 
-	// 타이머(FPS, 델타타임) 초기화
-	if (!GET_SINGLE(CInput)->Init(m_hWnd))
+	// 인풋 매니저(FPS, 델타타임) 초기화
+	if (!GET_SINGLE(CInput)->Init(m_hWnd, false))
 	{
 		return false;
 	}
