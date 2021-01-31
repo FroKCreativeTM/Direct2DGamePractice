@@ -7,7 +7,7 @@ INT APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int nCmdShow)
 {
 	// ½Ì±ÛÅæ °´Ã¼ ÃÊ±âÈ­
-	if (!CCore::GetInst()->Init(hInstance, true))
+	if (!CCore::GetInst()->Init(hInstance, false))
 	{
 		CCore::DestroyInst();
 		return 0;

@@ -2,6 +2,7 @@
 #include "CGraphics.h"
 #include "Core/CTimer.h"
 #include "Core/CGameError.h"
+#include "Core/CInput.h"
 
 CCore* CCore::m_pInstance = nullptr;
 bool   CCore::m_bLoop = true;
@@ -64,6 +65,12 @@ bool CCore::Init(HINSTANCE hInstance, bool isFullScreen)
 		return false;
 	}
 
+	// 타이머(FPS, 델타타임) 초기화
+	if (!GET_SINGLE(CInput)->Init(m_hWnd))
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -90,6 +97,34 @@ int CCore::Run()
 	}
 
 	return (int)msg.wParam;
+}
+
+void CCore::HandleLostGraphicsDevice()
+{
+	m_hResult = GET_SINGLE(CGraphics)->GetDeviceState();
+
+	if (FAILED(m_hResult))
+	{
+		if (m_hResult == D3DERR_DEVICELOST)
+		{
+			Sleep(100);
+			return;
+		}
+		else if (m_hResult == D3DERR_DEVICENOTRESET)
+		{
+			ReleaseAll();
+			m_hResult = GET_SINGLE(CGraphics)->Reset();
+			if (FAILED(m_hResult))
+			{
+				return;
+			}
+			ResetAll();
+		}
+		else
+		{
+			return;
+		}
+	}
 }
 
 LRESULT CCore::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -206,6 +241,7 @@ void CCore::Logic()
 
 void CCore::Input(float fDeltaTime)
 {
+	GET_SINGLE(CInput)->Update(fDeltaTime);
 }
 
 int CCore::Update(float fDeltaTime)
@@ -224,10 +260,30 @@ void CCore::Collision(float fDeltaTime)
 
 void CCore::Render(float fDeltaTime)
 {
+	// 렌더링이 성공적으로 된 뒤에만 렌더링한다.
+	if (SUCCEEDED(GET_SINGLE(CGraphics)->BeginScene(fDeltaTime)))
+	{
+		// 그릴 씬 정보들을 여기에 적는다
+		
+
+		// 씬을 종료한다.
+		GET_SINGLE(CGraphics)->EndScene(fDeltaTime);
+	}
+
+	HandleLostGraphicsDevice();
 	if (GET_SINGLE(CGraphics)->Render(fDeltaTime) == E_FAIL)
 	{
 		DestroyGame();
-	}
+	}	
+}
+
+void CCore::ReleaseAll()
+{
+}
+
+void CCore::ResetAll()
+{
+	GET_SINGLE(CGraphics)->Reset();
 }
 
 CCore::CCore()
@@ -249,6 +305,7 @@ CCore::CCore()
 CCore::~CCore()
 {
 	// 서브 관리 클래스들을 전부 해제한다.
-	DESTROY_SINGLE(CTimer);
+	DESTROY_SINGLE(CInput);
 	DESTROY_SINGLE(CGraphics);
+	DESTROY_SINGLE(CTimer);
 }

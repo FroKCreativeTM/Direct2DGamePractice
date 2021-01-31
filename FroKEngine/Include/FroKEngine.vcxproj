@@ -150,6 +150,7 @@
     <ClInclude Include="CCore.h" />
     <ClInclude Include="CGraphics.h" />
     <ClInclude Include="Core\CGameError.h" />
+    <ClInclude Include="Core\CInput.h" />
     <ClInclude Include="Core\CRef.h" />
     <ClInclude Include="Core\CTimer.h" />
     <ClInclude Include="resource.h" />
@@ -161,6 +162,7 @@
     <ClCompile Include="CCore.cpp" />
     <ClCompile Include="CGraphics.cpp" />
     <ClCompile Include="Core\CGameError.cpp" />
+    <ClCompile Include="Core\CInput.cpp" />
     <ClCompile Include="Core\CRef.cpp" />
     <ClCompile Include="Core\CTimer.cpp" />
     <ClCompile Include="GameApp.cpp" />

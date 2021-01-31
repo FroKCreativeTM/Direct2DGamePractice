@@ -5,6 +5,20 @@
 class CGraphics
 {
 public : 
+	HRESULT GetDeviceState()
+	{
+		m_hResult = E_FAIL;
+		
+		if (m_D3DDevice == nullptr)
+		{
+			return m_hResult;
+		}
+		m_hResult = m_D3DDevice->TestCooperativeLevel();
+
+		return  m_hResult;
+	}
+
+public : 
 	bool Init(HWND hWnd, int nWidth, int nHeight, bool isFullScreen);
 
 public:
@@ -12,7 +26,11 @@ public:
 	int Update(float fDeltaTime);
 	int LateUpdate(float fDeltaTime);
 	void Collision(float fDeltaTime);
+	HRESULT BeginScene(float fDeltaTime);
+	HRESULT EndScene(float fDeltaTime);
 	HRESULT Render(float fDeltaTime);
+
+	HRESULT Reset();
 
 private : 
 	void initD3DPP();

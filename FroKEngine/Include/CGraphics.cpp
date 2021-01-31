@@ -154,12 +154,47 @@ void CGraphics::Collision(float fDeltaTime)
 {
 }
 
+HRESULT CGraphics::BeginScene(float fDeltaTime)
+{
+	m_hResult = E_FAIL;
+
+	// 디바이스가 없다면 실패이다.
+	if (!m_D3DDevice)
+	{
+		return m_hResult;
+	}
+
+	m_D3DDevice->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 0.f, 0);
+	m_hResult = m_D3DDevice->BeginScene();
+
+	return m_hResult;
+}
+
+HRESULT CGraphics::EndScene(float fDeltaTime)
+{
+	m_hResult = E_FAIL;
+	if (m_D3DDevice)
+	{
+		m_hResult = m_D3DDevice->EndScene();
+	}
+	return m_hResult;
+}
+
 HRESULT CGraphics::Render(float fDeltaTime)
 {
 	m_hResult = E_FAIL;
 
-	m_D3DDevice->Clear(0, nullptr, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 255, 0), 0.f, 0);
 	m_hResult = m_D3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
+
+	return m_hResult;
+}
+
+HRESULT CGraphics::Reset()
+{
+	m_hResult = E_FAIL;
+	initD3DPP();
+
+	m_hResult = m_D3DDevice->Reset(&m_D3DPP);
 
 	return m_hResult;
 }

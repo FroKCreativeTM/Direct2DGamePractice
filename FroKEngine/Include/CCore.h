@@ -12,6 +12,7 @@ public:
 public:
 	bool Init(HINSTANCE hInstance, bool isFullScreen);
 	int Run();
+	void HandleLostGraphicsDevice();
 
 public:
 	// 해상도 반환
@@ -54,6 +55,7 @@ private:
 	HWND			m_hWnd;
 	RESOLUTION		m_tRS;
 	HDC				m_hDC;
+	HRESULT			m_hResult;
 
 	bool			m_bFullScreen;
 
@@ -69,6 +71,9 @@ private:
 	int LateUpdate(float fDeltaTime);
 	void Collision(float fDeltaTime);
 	void Render(float fDeltaTime);
+
+	void ReleaseAll();
+	void ResetAll();
 
 private:
 	CCore();

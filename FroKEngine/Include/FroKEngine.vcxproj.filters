@@ -25,6 +25,15 @@
     <Filter Include="01. Core\03. GameError">
       <UniqueIdentifier>{47611cdd-3c1a-4d32-8560-a2f2508e9e43}</UniqueIdentifier>
     </Filter>
+    <Filter Include="01. Core\04. Input">
+      <UniqueIdentifier>{3e5590fb-cbee-41b8-9317-c8ed0c641f72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. Scene">
+      <UniqueIdentifier>{351ac656-a2a7-41cb-a949-818401741422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03. Object">
+      <UniqueIdentifier>{04aa1d8a-3800-43a7-affb-be19427ce22d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCore.cpp">
@@ -44,6 +53,9 @@
     </ClCompile>
     <ClCompile Include="Core\CGameError.cpp">
       <Filter>01. Core\03. GameError</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\CInput.cpp">
+      <Filter>01. Core\04. Input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Core\CGameError.h">
       <Filter>01. Core\03. GameError</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\CInput.h">
+      <Filter>01. Core\04. Input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
