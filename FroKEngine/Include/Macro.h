@@ -30,3 +30,9 @@ private : \
 #define DEFINITION_SINGLE(Type)		Type* Type::m_pInst = NULL; 
 #define GET_SINGLE(Type)			Type::GetInst()
 #define DESTROY_SINGLE(Type)		Type::DestroyInst()
+
+// 해상도를 얻어오는 매크로
+#define GET_RESOLUTION		CCore::GetInst()->GetResolution()
+// 윈도우 핸들 가져오기
+#define GET_WINDOWHANDLE	CCore::GetInst()->GetWindowHandle()
+#define GET_WINDOWINSTANCE	CCore::GetInst()->GetWindowInstance()

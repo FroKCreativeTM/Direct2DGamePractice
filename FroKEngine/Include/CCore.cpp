@@ -1,5 +1,7 @@
 #include "CCore.h"
+#include "CGraphics.h"
 #include "Core/CTimer.h"
+#include "Core/CGameError.h"
 
 CCore* CCore::m_pInstance = nullptr;
 bool   CCore::m_bLoop = true;
@@ -18,9 +20,24 @@ void CCore::DestroyInst()
 	SAFE_DELETE(m_pInstance);
 }
 
-bool CCore::Init(HINSTANCE hInstance)
+bool CCore::AnotherInstance()
+{
+	// 뮤텍스를 이용해서 중복 인스턴스 실행을 막는다.
+	HANDLE hOurMutex;
+
+	hOurMutex = CreateMutex(nullptr, true, L"Already Created Program");
+
+	if (GetLastError() == ERROR_ALREADY_EXISTS)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool CCore::Init(HINSTANCE hInstance, bool isFullScreen)
 {
 	m_hInst = hInstance;
+	m_bFullScreen = isFullScreen;
 
 	// 윈도우 클래스 등록
 	MyRegisterClass();
@@ -34,6 +51,18 @@ bool CCore::Init(HINSTANCE hInstance)
 
 	// 렌더 타깃인 화면 DC를 만들어준다.
 	m_hDC = GetDC(m_hWnd);
+
+	// 타이머(FPS, 델타타임) 초기화
+	if (!GET_SINGLE(CTimer)->Init(m_hWnd))
+	{
+		return false;
+	}
+
+	// 그래픽 디바이스 초기화
+	if (!GET_SINGLE(CGraphics)->Init(m_hWnd, m_tRS.nWidth, m_tRS.nHeight, m_bFullScreen))
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -108,10 +137,20 @@ ATOM CCore::MyRegisterClass()
 
 BOOL CCore::Create()
 {
+	DWORD style;
+	if (m_bFullScreen)
+	{
+		style = WS_EX_TOPMOST | WS_VISIBLE | WS_POPUP;
+	}
+	else
+	{
+		style = WS_OVERLAPPEDWINDOW;
+	}
+
 	m_hWnd = CreateWindowW(
 		L"FroK's Engine",
 		L"FroK's Engine",
-		WS_OVERLAPPEDWINDOW,
+		style,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0,
 		nullptr, nullptr, m_hInst, nullptr);
 
@@ -120,13 +159,28 @@ BOOL CCore::Create()
 		return FALSE;
 	}
 
+	if (!m_bFullScreen)
+	{
+		 // 윈도우 크기를 조절해 클라이언트 영역이 width * height 가 되게 한다.
+		RECT rc;
+		GetClientRect(m_hWnd, &rc);
+
+		MoveWindow(m_hWnd,
+			0, 0,
+			m_tRS.nWidth + (m_tRS.nWidth - rc.right),
+			m_tRS.nHeight + (m_tRS.nHeight - rc.bottom)
+		,TRUE);
+	}
+
+	/*
 	// 실제 타이틀바나 윈도우를 포함한 크기를 구해준다.
-	RECT rc = { 0,0,m_tRS.nWidth,m_tRS.nHeight };
+	RECT rc = { 0,0,(LONG)m_tRS.nWidth, (LONG)m_tRS.nHeight };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 	// 위에서 구해준 크기로 윈도우 클라이언트 크기를 원하는 크기로 맞춰줘야 한다.
 	SetWindowPos(m_hWnd, HWND_TOPMOST, 100, 100, rc.right - rc.left,
 		rc.bottom - rc.top, SWP_NOMOVE | SWP_NOZORDER);
+	*/
 
 	ShowWindow(m_hWnd, SW_SHOW);
 	UpdateWindow(m_hWnd);
@@ -170,6 +224,10 @@ void CCore::Collision(float fDeltaTime)
 
 void CCore::Render(float fDeltaTime)
 {
+	if (GET_SINGLE(CGraphics)->Render(fDeltaTime) == E_FAIL)
+	{
+		DestroyGame();
+	}
 }
 
 CCore::CCore()
@@ -192,4 +250,5 @@ CCore::~CCore()
 {
 	// 서브 관리 클래스들을 전부 해제한다.
 	DESTROY_SINGLE(CTimer);
+	DESTROY_SINGLE(CGraphics);
 }

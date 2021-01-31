@@ -7,9 +7,10 @@ class CCore
 public:
 	static CCore* GetInst();
 	static void DestroyInst();
+	static bool AnotherInstance();
 
 public:
-	bool Init(HINSTANCE hInstance);
+	bool Init(HINSTANCE hInstance, bool isFullScreen);
 	int Run();
 
 public:
@@ -44,7 +45,7 @@ public:
 	// static이라 결국은 전역변수화되니 이 점 주의!(멀티스레드 상에선 특히나)
 	// 메모리 생성 시점! 프로그램 시작할 때
 private:
-	static CCore* m_pInstance;
+	static CCore*	m_pInstance;
 	static bool		m_bLoop;
 
 	// API 관련 멤버변수
@@ -53,6 +54,8 @@ private:
 	HWND			m_hWnd;
 	RESOLUTION		m_tRS;
 	HDC				m_hDC;
+
+	bool			m_bFullScreen;
 
 	// 외부 공개할 필요 없는 메소드들
 private:
