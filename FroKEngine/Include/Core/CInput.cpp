@@ -349,88 +349,129 @@ bool CInput::GetGamepadY(UINT n)
 BYTE CInput::GetGamepadLeftTrigger(UINT n)
 {
 	BYTE value = GetGamepadLeftTriggerUndead(n);
-	if (value > m_fTriggerDeadzone)             // if > dead zone
+	
+	// if > dead zone
+	if (value > m_fTriggerDeadzone) 
+	{    
 		//adjust magnitude relative to the end of the dead zone
-		value = (value - m_fTriggerDeadzone) * 255 /
-		(255 - m_fTriggerDeadzone);
-	else                                    // else, < dead zone
+		value = (value - m_fTriggerDeadzone) * 255 / (255 - m_fTriggerDeadzone);
+	}
+	// else, < dead zone
+	else 
+	{
 		value = 0;
+	}
+
 	return value;
 }
 
 BYTE CInput::GetGamepadRightTrigger(UINT n)
 {
 	BYTE value = GetGamepadRightTriggerUndead(n);
-	if (value > m_fTriggerDeadzone)    // if > dead zone
-		//adjust magnitude relative to the end of the dead zone
-		value = (value - m_fTriggerDeadzone) * 255 /
-		(255 - m_fTriggerDeadzone);
-	else                                    // else, < dead zone
+	
+	// 데드존 범위 밖이라면 
+	if (value > m_fTriggerDeadzone)
+	{
+		// 비율을 데드존에 맞춰서 적용한다.
+		value = (value - m_fTriggerDeadzone) * 255 / (255 - m_fTriggerDeadzone);
+	}
+	else 
+	{
 		value = 0;
+	}
+
 	return value;
 }
 
 SHORT CInput::GetGamepadThumbLX(UINT n)
 {
 	int x = GetGamepadThumbLXUndead(n);
-	if (x > m_fThumbstickDeadzone) // if +x outside dead zone
-		//adjust x relative to the deadzone and scale to 0 through 32767
-		x = (x - m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else if (x < -m_fThumbstickDeadzone)   // if -x outside dead zone
-		//adjust y relative to the deadzone and scale to 0 through -32767
-		x = (x + m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else        // else, x inside dead zone
+
+	// x 가 데드존 범위 밖이라면
+	if (x > m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(0 ~ 32767) 안으로 normalize 시킨다.
+		x = (x - m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	// -x 가 데드존 범위 밖이라면
+	else if (x < -m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(-32767 ~ 0) 안으로 normalize 시킨다.
+		x = (x + m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	else
+	{        
 		x = 0;  // return 0
+	}
 	return static_cast<SHORT>(x);
 }
 
 SHORT CInput::GetGamepadThumbLY(UINT n)
 {
 	int y = GetGamepadThumbLYUndead(n);
-	if (y > m_fThumbstickDeadzone) // if +y outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		y = (y - m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else if (y < -m_fThumbstickDeadzone)   // if -y outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		y = (y + m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else        // else, y inside dead zone
+
+	if (y > m_fThumbstickDeadzone)
+	{
+		// 데드존 범위(0 ~ 32767) 안으로 normalize 시킨다.
+		y = (y - m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	else if (y < -m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(-32767 ~ 0) 안으로 normalize 시킨다.
+		y = (y + m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	else 
+	{
 		y = 0;  // return 0
+	}
+
 	return static_cast<SHORT>(y);
 }
 
 SHORT CInput::GetGamepadThumbRX(UINT n)
 {
 	int x = GetGamepadThumbRXUndead(n);
-	if (x > m_fThumbstickDeadzone) // if +x outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		x = (x - m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else if (x < -m_fThumbstickDeadzone)   // if -x outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		x = (x + m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else        // else, x inside dead zone
+
+	// +x가 데드존 바깥에 있다면
+	if (x > m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(0 ~ 32767) 안으로 normalize 시킨다.
+		x = (x - m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	// -x가 데드존 바깥에 있다면
+	else if (x < -m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(-32767 ~ 0) 안으로 normalize 시킨다.
+		x = (x + m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	// 데드 존 범위 안이라면
+	else
+	{
 		x = 0;  // return 0
+	}
+
 	return static_cast<SHORT>(x);
 }
 
 SHORT CInput::GetGamepadThumbRY(UINT n)
 {
 	int y = GetGamepadThumbRYUndead(n);
-	if (y > m_fThumbstickDeadzone) // if +y outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		y = (y - m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else if (y < -m_fThumbstickDeadzone)   // if -y outside dead zone
-		//adjust magnitude relative to the end of the dead zone
-		y = (y + m_fThumbstickDeadzone) * 32767 /
-		(32767 - m_fThumbstickDeadzone);
-	else        // else, y inside dead zone
+
+	if (y > m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(0 ~ 32767) 안으로 normalize 시킨다.
+		y = (y - m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	else if (y < -m_fThumbstickDeadzone) 
+	{
+		// 데드존 범위(-32767 ~ 0) 안으로 normalize 시킨다.
+		y = (y + m_fThumbstickDeadzone) * 32767 / (32767 - m_fThumbstickDeadzone);
+	}
+	else 
+	{// else, y inside dead zone
 		y = 0;  // return 0
+	}
+
 	return static_cast<SHORT>(y);
 }
 
